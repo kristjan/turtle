@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import math
+import os
 import sys
 import turtle
 
@@ -212,7 +213,14 @@ for i in range(4):
     nextline()
 
 t.hideturtle()
-filename = 'renders/' + input + '.eps'
-t.getscreen().getcanvas().postscript(file=filename)
+filename = 'renders/' + input
+eps = filename + '.eps'
+png = filename + '.png'
+t.getscreen().getcanvas().postscript(file=eps)
+os.system(
+    'which convert &&' +
+    ' convert -colorspace RGB ' + eps +
+    ' -flatten -background white PNG32:' + png
+)
 
 screen.exitonclick()
