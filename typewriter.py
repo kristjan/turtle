@@ -134,6 +134,28 @@ def m_helper(depth, size):
     t.forward(size)
     t.right(90)
 
+def tofu(depth, size):
+    if depth == 0:
+        return
+
+    for i in range(4):
+        t.forward(size)
+        t.right(90)
+
+    angle = math.degrees(math.atan(0.5))
+    new_size = math.hypot(size / 3, 2 * size / 3)
+
+    # Recurse
+    skip(size / 3)
+    t.right(angle)
+    tofu(depth - 1, new_size)
+
+    # Return
+    t.right(180 - angle)
+    skip(size / 3)
+    t.right(180)
+
+
 def x(depth, size):
     if depth == 0 or size <= 1:
         return
@@ -208,7 +230,10 @@ alphabet = {
 initposition()
 for i in range(4):
     for letter in input:
-        alphabet[letter](2 ** i, letter_width)
+        if letter in alphabet:
+            alphabet[letter](2 ** i, letter_width)
+        else:
+            tofu(2 ** i, letter_width)
         nextchar()
     nextline()
 
